@@ -1,0 +1,35 @@
+import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { withEnvironment } from "../extensions/with-environment"
+import { withRootStore } from "../extensions/with-root-store"
+import { ResponseKind } from "../../utils"
+
+export const <%= props.pascalCaseName %>Model = types
+  .model("<%= props.pascalCaseName %>")
+  .extend(withEnvironment)
+  .extend(withRootStore)
+  .props({
+    data: types.optional(types.array(DataProps), [])
+  })
+  .actions((self) => ({
+    setLoading: (status: boolean) => {
+      self.loading = status
+    },
+  }))
+  .actions((self) => ({
+    doSomething: flow(function * () {
+      self.setLoading(true)
+      const result = yield self.environment.api.getList()
+      if (result.kind === ResponseKind.ok) {
+        self.data.replace(result?.data?.data)
+      } else {
+        self.data.replace([])
+      }
+      self.setLoading(false)
+    }),
+  }))
+
+type <%= props.pascalCaseName %>Type = Instance<typeof <%= props.pascalCaseName %>Model>
+export interface <%= props.pascalCaseName %> extends <%= props.pascalCaseName %>Type {}
+type <%= props.pascalCaseName %>SnapshotType = SnapshotOut<typeof <%= props.pascalCaseName %>Model>
+export interface <%= props.pascalCaseName %>Snapshot extends <%= props.pascalCaseName %>SnapshotType {}
+export const create<%= props.pascalCaseName %>DefaultModel = () => types.optional(<%= props.pascalCaseName %>Model, {})

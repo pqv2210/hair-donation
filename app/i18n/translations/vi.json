@@ -1,0 +1,13 @@
+{
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "back": "Back"
+  },
+  "errors": {
+    "noData": "Không có dữ liệu",
+    "serverError": "Có lỗi từ server.\nVui lòng thử lại sau!",
+    "default": "Có lỗi không xác định.\nVui lòng thử lại sau!",
+    "timeout": "Hết thời gian thực hiện yêu cầu.\nVui lòng thử lại sau!"
+  }
+}
