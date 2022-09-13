@@ -1,2 +1,6 @@
-export * from "./welcome/welcome-screen"
 export * from "./error/error-boundary"
+export * from "./home/home-screen"
+export * from "./map/map-screen"
+export * from "./register/register-screen"
+export * from "./donate/donate-screen"
+export * from "./setting/setting-screen"

@@ -1,57 +1,30 @@
 import React from "react"
-import { useColorScheme } from "react-native"
-import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native"
+import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { WelcomeScreen } from "../screens"
 import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
+import { Screens, SCREEN_OPTIONS } from "../utils"
+import { BottomTabNavigator } from "./bottom-navigator"
 
-export type NavigatorParamList = {
-  welcome: undefined
-  demo: undefined
-  demoList: undefined
+export type AppStackParamList = {
+  [Screens.main]: undefined
 }
 
-const Stack = createNativeStackNavigator<NavigatorParamList>()
-
-const AppStack = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-      initialRouteName="welcome"
-    >
-      <Stack.Screen name="welcome" component={WelcomeScreen} />
-    </Stack.Navigator>
-  )
-}
+const Stack = createNativeStackNavigator<AppStackParamList>()
 
 interface NavigationProps extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
 
 export const AppNavigator = (props: NavigationProps) => {
-  const colorScheme = useColorScheme()
   useBackButtonHandler(canExit)
   return (
-    <NavigationContainer
-      ref={navigationRef}
-      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-      {...props}
-    >
-      <AppStack />
+    <NavigationContainer ref={navigationRef} {...props}>
+      <Stack.Navigator screenOptions={SCREEN_OPTIONS} initialRouteName={Screens.main}>
+        <Stack.Screen name={Screens.main} component={BottomTabNavigator} />
+      </Stack.Navigator>
     </NavigationContainer>
   )
 }
 
 AppNavigator.displayName = "AppNavigator"
 
-/**
- * A list of routes from which we're allowed to leave the app when
- * the user presses the back button on Android.
- *
- * Anything not on this list will be a standard `back` action in
- * react-navigation.
- *
- * `canExit` is used in ./app/app.tsx in the `useBackButtonHandler` hook.
- */
-const exitRoutes = ["welcome"]
-export const canExit = (routeName: string) => exitRoutes.includes(routeName)
+const exitRoutes = [Screens.main]
+export const canExit = (routeName: Screens) => exitRoutes.includes(routeName)

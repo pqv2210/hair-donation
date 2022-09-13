@@ -13,13 +13,13 @@ const ROOT: ViewStyle = {
   flex: 1,
 }
 
-export const <%= props.pascalCaseName %>Screen: FC<StackScreenProps<AppStackParamList, "<%= props.camelCaseName %>">> = observer(function <%= props.pascalCaseName %>Screen() {
+export const MapScreen: FC<StackScreenProps<AppStackParamList, "map">> = observer(function MapScreen() {
   // const { someStore, anotherStore } = useStores()
   // const navigation = useNavigation()
 
   return (
     <Screen style={ROOT} preset="fixed">
-      <Text text="<%= props.camelCaseName %>" />
+      <Text text="map" />
     </Screen>
   )
 })

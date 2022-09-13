@@ -5,13 +5,13 @@ import * as Types from "./api.types"
 import * as storage from "../../utils/storage"
 import { rootStore } from "../../models"
 import {
+  common,
   checkStringIsEmpty,
   ResponseAPISuccess,
   ResponseKind,
   translate,
   Unauthorized,
 } from "../../utils"
-import common from "../../utils/string/common"
 
 export class Api {
   apisauce: ApisauceInstance

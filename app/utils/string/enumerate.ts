@@ -29,3 +29,22 @@ export enum ResponseProblem {
   client = "CLIENT_ERROR",
   cancel = "CANCEL_ERROR",
 }
+
+export enum Screens {
+  main = "main",
+  home = "home",
+  map = "map",
+  register = "register",
+  donate = "donate",
+  setting = "setting",
+}
+
+export type ScreenType = keyof typeof Screens
+
+export enum BottomButtonIndex {
+  home = 0,
+  map = 1,
+  register = 2,
+  donate = 3,
+  setting = 4,
+}

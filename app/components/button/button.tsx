@@ -49,6 +49,7 @@ export function Button(props: ButtonProps) {
     () => mergeAll(flatten([styleOverride, color && { backgroundColor: color }])),
     [styleOverride, color],
   )
+
   const textStyle = mergeAll(
     flatten([textStyleOverride, size && { fontSize: size }, textColor && { color: textColor }]),
   )
@@ -56,6 +57,7 @@ export function Button(props: ButtonProps) {
   const content = children || (
     <Text tx={tx} text={text} font={font} style={textStyle} txOptions={txOptions} />
   )
+
   return (
     <TouchableWithoutFeedback
       style={viewStyle}

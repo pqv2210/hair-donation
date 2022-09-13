@@ -14,11 +14,19 @@ export interface IconProps {
 }
 
 export function Icon(props: IconProps) {
-  const { style: styleOverride, icon, containerStyle } = props
+  const { style: styleOverride, icon, containerStyle, size, color } = props
+  const iconStyle = {
+    ...ROOT,
+    width: size,
+    height: size,
+  }
+  const mergeStyle = size ? iconStyle : ROOT
+  const style: ImageStyle = { ...mergeStyle, ...styleOverride }
+  const tinColor = { tintColor: color }
 
   return (
     <View style={containerStyle}>
-      <Image style={[ROOT, styleOverride]} source={icons[icon]} />
+      <Image style={[style, color != null && tinColor]} source={icons[icon]} />
     </View>
   )
 }
