@@ -4,6 +4,7 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTConvert.h>
+#import <GoogleMaps/GoogleMaps.h>
 
 #ifdef FB_SONARKIT_ENABLED
 #import <FlipperKit/FlipperClient.h>
@@ -37,14 +38,7 @@ static void InitializeFlipper(UIApplication *application) {
                                                    moduleName:@"HairDonation"
                                             initialProperties:nil];
 
-  if (@available(iOS 13.0, *)) {
-    // Change this to whatever color you want -- it'll show as
-    // your app loads for the first time in the background.
-    // You can use the system's background color if you wish
-    rootView.backgroundColor = [UIColor systemBackgroundColor];
-  } else {
-    rootView.backgroundColor = [UIColor whiteColor];
-  }
+  rootView.backgroundColor = [UIColor whiteColor];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
@@ -53,6 +47,9 @@ static void InitializeFlipper(UIApplication *application) {
   [self.window makeKeyAndVisible];
 
   [super application:application didFinishLaunchingWithOptions:launchOptions];
+
+  NSString *googleAPIKey = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"GoogleAPIKey"];
+  [GMSServices provideAPIKey:googleAPIKey];
 
   return YES;
 }
