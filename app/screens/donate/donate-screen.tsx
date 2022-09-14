@@ -2,9 +2,10 @@ import React, { FC } from "react"
 import { observer } from "mobx-react-lite"
 import { ViewStyle } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
-import { AppStackParamList } from "../../navigators"
+import { BottomTabNavigatorType } from "../../navigators"
 import { Screen, Text } from "../../components"
 import { color } from "../../theme"
+import { Screens } from "../../utils"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 
@@ -13,13 +14,15 @@ const ROOT: ViewStyle = {
   flex: 1,
 }
 
-export const DonateScreen: FC<StackScreenProps<AppStackParamList, "donate">> = observer(function DonateScreen() {
-  // const { someStore, anotherStore } = useStores()
-  // const navigation = useNavigation()
+export const DonateScreen: FC<StackScreenProps<BottomTabNavigatorType, Screens.donate>> = observer(
+  function DonateScreen() {
+    // const { someStore, anotherStore } = useStores()
+    // const navigation = useNavigation()
 
-  return (
-    <Screen style={ROOT} preset="fixed">
-      <Text text="donate" />
-    </Screen>
-  )
-})
+    return (
+      <Screen style={ROOT} preset="fixed">
+        <Text text="donate" />
+      </Screen>
+    )
+  },
+)

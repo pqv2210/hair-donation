@@ -51,5 +51,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>GoogleAPIKey</key>
+	<string>AIzaSyAiPTTM6yTGRP6ZbU7gYGl8aX0x2QmuULI</string>
 </dict>
 </plist>
