@@ -2,29 +2,20 @@ import * as React from "react"
 import { ImageStyle, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
 import { color, commonStyle, spacing } from "../../theme"
-import { Button, Icon, Row, Text } from "../"
+import { Row } from "../"
 import { BottomButtonIndex, isIPhoneX, Screens } from "../../utils"
 import { IconTypes } from "../icon/icons"
 import { useStores } from "../../models"
 import { TxKeyPath } from "../../i18n"
 import { NavigationHelpers, ParamListBase, TabNavigationState } from "@react-navigation/native"
 import { BottomTabNavigationEventMap } from "@react-navigation/bottom-tabs/lib/typescript/src/types"
-import { flatten, mergeAll } from "ramda"
+import { BottomButton } from "./bottom-button"
 
 const CONTAINER: ViewStyle = {
   ...commonStyle.SHADOW,
   backgroundColor: color.white,
   paddingBottom: isIPhoneX() ? spacing.medium : spacing.none,
 }
-
-const BUTTON: ViewStyle = {
-  ...commonStyle.FLEX,
-  ...commonStyle.CENTER,
-  paddingVertical: spacing["tiny+"],
-  borderTopColor: color.primary,
-}
-
-const ICON: ImageStyle = { marginBottom: spacing.tiny }
 
 export interface BottomMenuProps {
   state: TabNavigationState<ParamListBase>
@@ -48,24 +39,14 @@ export const BottomMenu = observer(function BottomMenu(props: BottomMenuProps) {
     }
   }
 
-  const renderButton = (name: TxKeyPath, icon: IconTypes, route: Screens, index: number) => {
-    const isRoute = commons.name === route
-    const style = mergeAll(flatten([BUTTON, { borderTopWidth: isRoute ? 2 : 0 }]))
-
-    return (
-      <Button scale="small" style={style} onPress={onPress(route, index)}>
-        <Icon style={ICON} size={22} color={isRoute ? color.primary : color.black} icon={icon} />
-        <Text
-          style={commonStyle.TEXT_CENTER}
-          color={isRoute ? color.primary : color.black}
-          numberOfLines={2}
-          font={isRoute ? "huge" : "regular"}
-          size={11}
-          tx={name}
-        />
-      </Button>
-    )
-  }
+  const renderButton = (tx: TxKeyPath, icon: IconTypes, route: Screens, index: number) => (
+    <BottomButton
+      icon={icon}
+      tx={tx}
+      onPress={onPress(route, index)}
+      isRoute={commons.name === route}
+    />
+  )
 
   return (
     <Row style={CONTAINER}>
