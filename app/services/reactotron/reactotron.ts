@@ -1,5 +1,4 @@
 import { Tron } from "./tron"
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import { ArgType } from "reactotron-core-client"
 import { RootStore } from "../../models/root-store/root-store"
 import { onSnapshot } from "mobx-state-tree"
@@ -91,9 +90,6 @@ export class Reactotron {
       })
 
       if (Platform.OS !== "web") {
-        if (this.config.useAsyncStorage) {
-          Tron.setAsyncStorageHandler(AsyncStorage)
-        }
         Tron.useReactNative({
           asyncStorage: this.config.useAsyncStorage ? undefined : false,
         })
