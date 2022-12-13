@@ -21,7 +21,7 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2
 
-      - name: Use Node.js 14
+      - name: Use Node.js 16.18.0
         uses: actions/setup-node@v3
         with:
           node-version: 16.18.0
