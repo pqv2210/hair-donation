@@ -37,6 +37,9 @@ jobs:
       - name: Install Node modules
         run: yarn
 
+      - name: Install React Native
+        run: yarn global add react-native
+
       - name: Cache Gradle Wrapper
         uses: actions/cache@v2
         with:
