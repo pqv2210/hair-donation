@@ -40,15 +40,15 @@ jobs:
         id: check_files
         uses: andstor/file-existence-action@v1
         with:
-          files: "android/app/src/main/assets"
+          files: "node_modules/expo/scripts/"
 
       - name: File exists
         if: steps.check_files.outputs.files_exists == 'false'
-        run: mkdir android/app/src/main/assets
+        run: echo "node_modules/expo/scripts/ not exist"
 
       - name: Build Android Release
         run: |
-          npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && cd android/app/src/main/res && rm -rf drawable-hdpi drawable-mdpi drawable-xhdpi drawable-xxhdpi drawable-xxxhdpi raw && cd ../../../../.. && cd android && ./gradlew clean && ./gradlew app:assembleRelease --no-daemon && cd ..
+          cd android && ./gradlew clean && ./gradlew assembleRelease --no-daemon && cd ..
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
