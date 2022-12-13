@@ -1,0 +1,54 @@
+name: Generate .apk file
+
+on:
+  pull_request:
+    branches:
+      - develop
+    # types:
+    #   - closed
+
+jobs:
+  setup-env:
+    # if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Java 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: "11"
+          distribution: "temurin"
+          cache: gradle
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v2
+
+      - name: Use Node.js 16.18.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.18.0
+          cache: "yarn"
+
+      - name: Install Node modules
+        run: yarn install --frozen-lockfile
+
+  build-android:
+    # if: github.event.pull_request.merged == true
+    needs: setup-env
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Node modules
+        run: yarn
+
+      - name: Build Android Release
+        run: |
+          cd android && ./gradlew assembleRelease --no-daemon && cd ..
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: app-release.apk
+          path: android/app/build/outputs/apk/release/
