@@ -4,9 +4,12 @@ on:
   pull_request:
     branches:
       - develop
+    # types:
+    #   - closed
 
 jobs:
   setup-env:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -31,6 +34,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
   build-android:
+    if: github.event.pull_request.merged == true
     needs: setup-env
     runs-on: ubuntu-latest
     steps:
@@ -39,19 +43,9 @@ jobs:
       - name: Install Node modules
         run: yarn
 
-      - name: Check folder exist
-        id: check_files
-        uses: andstor/file-existence-action@v1
-        with:
-          files: "node_modules/expo/scripts/"
-
-      - name: File exists
-        if: steps.check_files.outputs.files_exists == 'false'
-        run: echo "node_modules/expo/scripts/ not exist"
-
       - name: Build Android Release
         run: |
-          cd android && ./gradlew clean && ./gradlew assembleRelease --no-daemon && cd ..
+          cd android && ./gradlew assembleRelease --no-daemon && cd ..
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
