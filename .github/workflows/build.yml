@@ -30,32 +30,25 @@ jobs:
       - name: Install Node modules
         run: yarn install --frozen-lockfile
 
-      # - name: Cache Gradle Wrapper
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: ~/.gradle/wrapper
-      #     key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-
-      # - name: Cache Gradle Dependencies
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: ~/.gradle/caches
-      #     key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-gradle-caches-
-
-      # - name: Make Gradlew Executable
-      #   run: cd android && chmod +x ./gradlew
-
   build-android:
     needs: setup-env
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
+      - name: Check folder exist
+        id: check_files
+        uses: andstor/file-existence-action@v1
+        with:
+          files: "android/app/src/main/assets"
+
+      - name: File exists
+        if: steps.check_files.outputs.files_exists == 'false'
+        run: mkdir android/app/src/main/assets
+
       - name: Build Android Release
         run: |
-          cd android && ./gradlew assembleRelease --no-daemon
+          npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && cd android/app/src/main/res && rm -rf drawable-hdpi drawable-mdpi drawable-xhdpi drawable-xxhdpi drawable-xxxhdpi raw && cd ../../../../.. && cd android && ./gradlew clean && ./gradlew app:assembleRelease --no-daemon && cd ..
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
