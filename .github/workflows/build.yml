@@ -11,9 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install React Native
-        run: yarn global add react-native
-
       - name: Set up Java 11
         uses: actions/setup-java@v2
         with:
@@ -31,7 +28,7 @@ jobs:
           cache: "yarn"
 
       - name: Install Node modules
-        run: yarn
+        run: yarn install --frozen-lockfile
 
       - name: Cache Gradle Wrapper
         uses: actions/cache@v2
@@ -59,17 +56,6 @@ jobs:
       - name: Make release.keystore
         run: |
           cd android/app && cp debug.keystore release.keystore && cd ../..
-
-      - name: Check assets folder exist or not
-        id: check_folder
-        uses: andstor/file-existence-action@v1
-        with:
-          files: "android/app/src/main/assets"
-
-      - name: File exists
-        if: steps.check_folder.outputs.files_exists == 'false'
-        run: |
-          mkdir android/app/src/main/assets
 
       - name: Build Android Release
         run: |
